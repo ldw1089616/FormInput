@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 
 export function ConfigurationFactory() {
   return new Configuration({apiKeys:{}});
+  
 }
 
 @NgModule({

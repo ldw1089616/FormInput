@@ -1,0 +1,111 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-blockUI [blocked]="blockedDocument" [target]="pnl"></p-blockUI>
+<p-blockUI [blocked]="blockedTraffic" [target]="trafficInfo"></p-blockUI>
+<!-- <h3 class="first">返连人员统计</h3> -->
+<p-panel #pnl header="基本信息">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <input type="text" pInputText [(ngModel)]="formInfo.fname" placeholder="姓名">         
+            </div>
+        </div>
+        
+        <div class="ui-g-12 ui-md-4">
+            <p-dropdown [options]="sexOptions" [(ngModel)]="formInfo.fsex" placeholder="性别" [showClear]="true"></p-dropdown> 
+        </div>
+                
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <input type="text" pInputText [(ngModel)]="formInfo.faddr" placeholder="住址">         
+            </div>
+        </div>
+    
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <input type="text" pInputText [(ngModel)]="formInfo.fphone" placeholder="电话号码">         
+            </div>
+        </div>
+        
+        <div class="ui-g-12 ui-md-4">
+            <p-dropdown [options]="houseTypeOptions" [(ngModel)]="formInfo.fhouseType" placeholder="房屋类型" [showClear]="true"></p-dropdown> 
+        </div>
+                
+        <div class="ui-g-12 ui-md-4">
+            <p-calendar [(ngModel)]="formInfo.freturnDate" [showIcon]="true" placeholder="回连时间"></p-calendar>    
+        </div>
+    </div>
+    
+</p-panel>
+<p-panel #trafficInfo header="交通信息">
+    <div style="text-align:left;">
+        <p-button label="+" (onClick)="addTraffic()" ></p-button>
+    </div>
+
+    <div class="ui-g ui-fluid" *ngFor="let obj of formInfo.returnPathList; let i = index">
+        <div class="ui-g-6 ui-md-2">
+            <div class="ui-inputgroup">
+                <input type="text" pInputText [(ngModel)]="obj.from" placeholder=出发地>         
+            </div>
+        </div>
+    
+        <div class="ui-g-6 ui-md-2">
+            <div class="ui-inputgroup">
+                <input type="text" pInputText [(ngModel)]="obj.target" placeholder="到达地">         
+            </div>
+        </div>
+        
+        <div class="ui-g-6 ui-md-2">
+            <p-dropdown [options]="trafficTypeOption" [(ngModel)]="obj.trafficType" placeholder="交通类型" [showClear]="true"></p-dropdown> 
+        </div>
+        <div class="ui-g-6 ui-md-2">
+            <div class="ui-inputgroup">
+                <input type="text" pInputText [(ngModel)]="obj.trafficNo" placeholder="交通班次">         
+            </div>
+        </div>
+        <div class="ui-g-6 ui-md-2">
+            <p-calendar [(ngModel)]="obj.trafficDate" [showIcon]="true" placeholder="交通时间"></p-calendar>    
+        </div>
+        <div class="ui-g-6 ui-md-2"> 
+            <p-button label="删除该条" (onClick)="delTraffic(i)" ></p-button>
+        </div>
+        <div>
+            -----------------------------------
+        </div>
+    </div>
+    <div style="text-align:right;">
+        <p-button label="提交" (onClick)="regist()" ></p-button>
+    </div>
+</p-panel>
+
+<p-dialog header="通知" [(visible)]="displayNotice" [modal]="true" [style]="{width: '100vw'}" [maximizable]="false" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+        <p-scrollPanel [style]="{width: '100%', height: '200px'}">
+            <div style="padding:2em;line-height:1.5;text-align: center;">关于敦促新型冠状病毒感染的肺炎重点人员和外地来（返）连人员如实登记申报的通告
+            </div>
+            <div style="padding:1em;line-height:1.5">当前，我市新型冠状病毒感染的肺炎疫情防控处于关键时期，但少数有疫情重点地区旅居史、确诊病例密切接触史等人员，拒不遵守疫情防控要求，故意隐瞒病情、行程、接触史等相关信息，造成病毒传播危险，扰乱疫情防控秩序，严重危害人民群众生命安全和身体健康，危害公共安全。为依法惩处上述违法犯罪行为，切实加强疫情防控，根据相关法律规定，现通告如下：
+            </div>
+            <div style="padding:1em;line-height:1.5">一、任何单位和个人，应当自觉遵守法律规定，依法履行疫情防控的法律义务，服从当地政府发布的防控疫情的决定、命令，自觉接受当地政府及疾病预防控制机构、医疗机构等部门采取的有关登记调查、检验、采集样本、隔离观察、隔离治疗等防控措施，主动如实报告病情、旅居史、密切接触人员等相关情况，不得迟报、漏报、瞒报、谎报。
+            </div>
+            <div style="padding:1em;line-height:1.5">二、患有或者疑似患有新型冠状病毒感染的肺炎，隐瞒、谎报病情、旅居史、密切接触人员等信息，或者违反隔离、治疗相关规定，出入公共场所，参与人员聚集活动，故意传播新型冠状病毒或造成病毒传播危险，尚不够刑事处罚的，依法给予治安处罚；构成犯罪的，依法按照以危险方法危害公共安全罪追究刑事责任。
+            </div>
+            <div style="padding:1em;line-height:1.5">三、拒绝接受检疫、强制隔离或者治疗，造成传染病传播或病毒传播危险，尚不够刑事处罚的，依法给予治安处罚；构成犯罪的，依法按照以危险方法危害公共安全罪或者过失以危险方法危害公共安全罪追究刑事责任。
+            </div>
+            <div style="padding:1em;line-height:1.5">四、拒绝执行卫生防疫机构等部门依照传染病防治法提出的预防、控制措施的，依法给予治安处罚；引起新型冠状病毒感染的肺炎传播或者有传播严重危险的，依法按照妨害传染病防治罪追究刑事责任。
+            </div>
+            <div style="padding:1em;line-height:1.5">自本通告发布之时起，截至2月10日17时前，尚未登记报告的重点人员和外地已来（返）连人员必须主动向居住地的社区（村）登记报告。外地即将来（返）连人员至连后应立即向居住地的社区（村）登记报告。在规定期限内拒不履行登记报告义务的或者造成其他严重后果的，将依法从严惩处，并纳入征信体系实施联合惩戒。
+            </div>
+            <div style="padding:1em;line-height:1.5">对暴力伤医、制假售假、非法经营、造谣传谣等破坏疫情防控的违法犯罪行为，依法严厉打击，从重从快追究法律责任。
+            </div>
+            <div style="padding:1em;line-height:1.5;text-align: right;">特此通告</div>
+            　<div style="padding:1em;line-height:1.5;text-align: right;">辽宁省大连市中级人民法院</div>
+            <div style="padding:1em;line-height:1.5;text-align: right;">辽宁省大连市人民检察院</div>
+            <div style="padding:1em;line-height:1.5;text-align: right;">大连市公安局</div>
+            <div style="padding:1em;line-height:1.5;text-align: right;">大连市司法局</div>
+            <div style="padding:1em;line-height:1.5;text-align: right;">2020年2月8日</div>
+        </p-scrollPanel>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="displayNotice=false" label="OK"></button>
+        </p-footer>
+</p-dialog>
+
+
